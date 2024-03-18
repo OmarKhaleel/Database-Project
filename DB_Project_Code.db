@@ -1,0 +1,80 @@
+--Bank DataBase Code--
+
+
+-- table creation (DDL)--
+
+create table BANK(bank_id number(2) constraint bank_id_pk primary key, bname varchar(20),address varchar(20));
+
+create table BRANCH(branch_id number(2) constraint branch_id_pk primary key, address varchar(20));
+
+create table CUSTOMER(cus_id number(6) constraint cus_id_pk primary key,address varchar2(20),cusfname varchar2(15),cuslname varchar2(17),phonenum number(10),cusemail varchar(50));
+
+create table LOAN(l_id number(9) constraint l_id_pk primary key,ltype varchar2(30),amount number);
+
+create table employee(e_id number(5) constraint e_id_pk primary key,address varchar2(20),efname varchar2(15),elname varchar2(17),bdate date  not null,email varchar(50)  not null);
+
+create table account(acc_id number(6) constraint acc_id_pk primary key,open_date date,acctype varchar2(20),balance number,cus_id number(6) , foreign key(cus_id)   references customer(cus_id) on delete set null);
+
+create table transactions(tra_id number(10) constraint tra_id_pk primary key,tdate date,amount number,tratype varchar2(20),r_id number(6) ,FOREIGN KEY (r_id)   references customer(cus_id) on delete set null);
+
+create table offers(branch_id number(2) constraint offers_branch_id references branch(branch_id),loan_id number(9) constraint offers_loan_id references loan(l_id));
+
+create table DEPOSITOR(cus_id number(6) constraint depositor_cus_id references customer(cus_id),acc_id number(6) constraint depositor_acc_id references account(acc_id));
+
+-- Inserting values into the tables (DML)--
+
+insert into bank(bank_id,bname,address) values (01,'Arab Bank','Amman');
+insert into bank(bank_id,bname,address) values (02,'Ittihad Bank','Amman');
+insert into bank(bank_id,bname,address) values (03,'Al Qahera Bank','Zarqa');
+insert into bank(bank_id,bname,address) values (04,'ABC ','Amman');
+
+insert into branch(branch_id,address) values (11,'Amman');
+insert into branch(branch_id,address) values (22,'Zarqa');
+insert into branch(branch_id,address) values (33,'Irbid');
+insert into branch(branch_id,address) values (44,'Amman');
+insert into branch(branch_id,address) values (55,'Zarqa');
+insert into branch(branch_id,address) values (66,'Irbid');
+insert into branch(branch_id,address) values (77,'Amman');
+insert into branch(branch_id,address) values (88,'Zarqa');
+insert into branch(branch_id,address) values (99,'Irbid');
+
+insert into customer(cus_id,address,cusfname,cuslname,phonenum,cusemail) values (161819,'Amman','Omar','Khaleel',0797865277,'omarkhaleel@gmail.com');
+insert into customer(cus_id,address,cusfname,cuslname,phonenum,cusemail) values (201819,'Amman','Omar','Quishawi',0987654568,'omaralquishawi@gmail.com');
+insert into customer(cus_id,address,cusfname,cuslname,phonenum,cusemail) values (167680,'Amman','Fares','Khuffash',07986542567,'faresalkhuffash@gmail.com');
+
+insert into loan(l_id,ltype,amount) values (123456,'dd',30000);
+insert into loan(l_id,ltype,amount) values (145678,'ss',20000000);
+insert into loan(l_id,ltype,amount) values (789099,'ff',4500000);
+
+insert into employee(e_id,address,efname,elname,bdate,email) values (29818,'amman','khaled','ahmad',to_date('21-10-2001','dd-mm-yyyy'),'khaled@icloud.com');
+insert into employee(e_id,address,efname,elname,bdate,email) values (27890,'ajloun','mahmoud','ziad',to_date('09-07-2002','dd-mm-yyyy'),'mahmoudzi@gmail.com');
+insert into employee(e_id,address,efname,elname,bdate,email) values (46890,'mafraq','hala','mohammad',to_date('29-08-2002','dd-mm-yyyy'),'halamoh@yahoo.com');
+
+insert into account(acc_id,open_date,acctype,balance,cus_id) values (57579,to_date('15-10-2003','dd-mm-yyyy'),'saving',500001,161819);
+insert into account(acc_id,open_date,acctype,balance,cus_id) values (12345,to_date('15-12-1980','dd-mm-yyyy'),'saving',544759,201819);
+insert into account(acc_id,open_date,acctype,balance,cus_id) values (12789,to_date('19-10-2020','dd-mm-yyyy'),'recurring',125449,167680);
+
+
+insert into transactions(tra_id,tdate,amount,tratype,r_id) values (57579,to_date('15-10-2003','dd-mm-yyyy'),368760600,'try',161819);
+insert into transactions(tra_id,tdate,amount,tratype,r_id) values (89764,to_date('15-10-2022','dd-mm-yyyy'),78900,'stan',201819);
+insert into transactions(tra_id,tdate,amount,tratype,r_id) values (78268,to_date('15-10-2020','dd-mm-yyyy'),368760600,'lon',167680);
+
+insert into offers(branch_id,loan_id) values (11,123456);
+insert into offers(branch_id,loan_id) values (22,145678);
+insert into offers(branch_id,loan_id) values (33,123456);
+insert into offers(branch_id,loan_id) values (44,789099);
+
+insert into depositor(cus_id,acc_id) values (161819,57579);
+insert into depositor(cus_id,acc_id) values (161819,57579);
+insert into depositor(cus_id,acc_id) values (201819,12789);
+
+
+
+select * from Bank where Address='Amman';
+select * from branch where address='Irbid';
+select * from customer where cuslname='Quishawi';
+
+select * from offers;
+
+select * from depositor;
+
